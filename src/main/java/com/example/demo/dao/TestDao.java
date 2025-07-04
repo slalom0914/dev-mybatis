@@ -31,5 +31,11 @@ public class TestDao {
     result = sqlSessionTemplate.update("testUpdate", tvo);
     return result;
   }
+  public int testDelete(int t_no) {
+    log.info("testDelete");
+    int result = 0;
+    result = sqlSessionTemplate.delete("testDelete", t_no);
+    return result;
+  }
 
 }

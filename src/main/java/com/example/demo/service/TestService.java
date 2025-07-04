@@ -37,4 +37,11 @@ public class TestService {
     result = testDao.testUpdate(tvo);
     return result;
   }
+
+  public int testDelete(int t_no) {
+    log.info("testDelete");
+    int result = 0;
+    result = testDao.testDelete(t_no);
+    return result;
+  }
 }

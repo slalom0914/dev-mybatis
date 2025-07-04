@@ -7,13 +7,14 @@
   <insert id="testInsert" parameterType="com.example.demo.vo.TestVO">
     INSERT INTO test(t_no, t_title, t_content) VALUES(#{t_no}, #{t_title}, #{t_content})
   </insert>
-  <update id="testUpdate" parameterType="map">
+  <update id="testUpdate" parameterType="com.example.demo.vo.TestVO">
     UPDATE test 
        SET t_title = #{t_title}
           ,t_content = #{t_content} 
      WHERE t_no = #{t_no}
   </update>
-  <delete id="testDelete" parameterType="map">
-    DELETE FROM test WHERE t_no = #{t_no}
+	<!-- delete from test where t_no=? -->
+  <delete id="testDelete" parameterType="int">
+    DELETE FROM test WHERE t_no = #{value}
   </delete>
 </mapper>
