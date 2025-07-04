@@ -23,4 +23,18 @@ public class TestService {
     list = testDao.testList();//null이 올 수도 있습니다
     return list;
   }
+
+  public int testInsert(TestVO tvo) {
+    log.info("testInsert");
+    int result = 0;
+    result = testDao.testInsert(tvo);
+    return result;
+  }
+
+  public int testUpdate(TestVO tvo) {
+    log.info("testUpdate");
+    int result = 0;
+    result = testDao.testUpdate(tvo);
+    return result;
+  }
 }

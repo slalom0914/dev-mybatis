@@ -4,4 +4,16 @@
 	<select id="testList" resultType="java.util.Map" parameterType="map">
 		SELECT t_no, t_title, t_content FROM test
 	</select>
- </mapper>
+  <insert id="testInsert" parameterType="com.example.demo.vo.TestVO">
+    INSERT INTO test(t_no, t_title, t_content) VALUES(#{t_no}, #{t_title}, #{t_content})
+  </insert>
+  <update id="testUpdate" parameterType="map">
+    UPDATE test 
+       SET t_title = #{t_title}
+          ,t_content = #{t_content} 
+     WHERE t_no = #{t_no}
+  </update>
+  <delete id="testDelete" parameterType="map">
+    DELETE FROM test WHERE t_no = #{t_no}
+  </delete>
+</mapper>
