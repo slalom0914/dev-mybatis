@@ -17,14 +17,16 @@ public class DeptDao {
 
     public List<DeptVO> deptList(DeptVO dvo) {
         log.info("deptList");
+        log.info(dvo);
         List<DeptVO> list = null;
-        //list = sqlSessionTemplate.selectList("deptMapper.deptList", dvo);
-        list = new ArrayList<>();
-        DeptVO deptVO = new DeptVO();
-        deptVO.setDeptno(50);
-        deptVO.setDname("개발부");
-        deptVO.setLoc("제주");
-        list.add(deptVO);
+        list = sqlSessionTemplate.selectList("deptList", dvo);
         return list;
+    }
+
+    public int deptDelete(DeptVO dvo) {
+        int result = 0;
+        result = sqlSessionTemplate.delete("deptDelete", dvo);
+        log.info("result : "+result);
+        return result;
     }
 }
