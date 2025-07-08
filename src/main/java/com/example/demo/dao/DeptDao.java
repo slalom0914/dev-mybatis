@@ -29,4 +29,23 @@ public class DeptDao {
         log.info("result : "+result);
         return result;
     }
+/*
+단위테스트를 위해서 insert문 처리한 후에 commit에 대한 미처리로
+코드가 이상이 없었음에도 불구하고 result값이 0이 출력되었다.
+조치내용
+Ctrl+Del키-> 작업관리자 -> 서비스 -> 알파벳 O를 눌렀더니
+-> 오라클 서비스와 오라클 리스너가 목록에 있음
+-> 각각 메뉴아이템에서 오른쪽 버튼 눌렀을 때 다시시작 메뉴아이템이
+있었고 이것으로 오라클 서버를 재기동 후에 토드에서 조회를 다시 해보니
+정말 50번 로우가 존재하지 않았다.
+추가
+토드와 스프링 부트를 오가면서 insert, delete, update 번갈아
+요청할 때는 commit과 rollback 확인이 필요함.
+ */
+    public int deptUpdate(DeptVO dvo) {
+        int result = 0;
+        result = sqlSessionTemplate.update("deptUpdate", dvo);
+        log.info("result : "+result);
+        return result;
+    }
 }

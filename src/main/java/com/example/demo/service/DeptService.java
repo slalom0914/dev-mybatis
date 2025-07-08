@@ -26,4 +26,11 @@ public class DeptService {
         result = deptDao.deptDelete(dvo);
         return result;
     }
+
+    public int deptUpdate(DeptVO dvo) {
+        log.info("deptUpdate dvo : "+dvo.getDeptno());
+        int result = 0;
+        result = deptDao.deptUpdate(dvo);
+        return result;
+    }
 }

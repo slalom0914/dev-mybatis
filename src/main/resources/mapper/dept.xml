@@ -15,4 +15,16 @@
             <![CDATA[ AND deptno = #{deptno} ]]>
         </if>
     </delete>
+    <update id="deptUpdate" parameterType="com.example.demo.vo.DeptVO">
+        UPDATE dept
+        <set>
+            <if test='dname !=null'>
+                dname = #{dname},
+            </if>
+            <if test='loc !=null'>
+                loc = #{loc}
+            </if>
+        </set>
+        WHERE deptno = #{deptno}
+    </update>
 </mapper>
