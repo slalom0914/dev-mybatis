@@ -48,4 +48,11 @@ Ctrl+Del키-> 작업관리자 -> 서비스 -> 알파벳 O를 눌렀더니
         log.info("result : "+result);
         return result;
     }
+
+    public int deptInsert(DeptVO dvo) {
+        log.info("deptInsert");
+        int result = 0;
+        result = sqlSessionTemplate.insert("deptInsert", dvo);
+        return result;
+    }
 }

@@ -27,4 +27,8 @@
         </set>
         WHERE deptno = #{deptno}
     </update>
+    <insert id="deptInsert" parameterType="com.example.demo.vo.DeptVO">
+        INSERT INTO dept(deptno, dname, loc)
+        VALUES(#{deptno},#{dname},#{loc})
+    </insert>
 </mapper>

@@ -15,6 +15,14 @@ import java.util.List;
 public class RestDeptController {
     @Autowired
     private DeptService deptService = null;
+
+    @PostMapping
+    public String deptInsert(@RequestBody DeptVO dvo) {
+        int result = 0;
+        result = deptService.deptInsert(dvo);
+        return String.valueOf(result);
+    }
+
     @GetMapping("deptList")
     public String deptList(DeptVO dvo){
         log.info("deptList");

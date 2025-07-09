@@ -33,4 +33,11 @@ public class DeptService {
         result = deptDao.deptUpdate(dvo);
         return result;
     }
+
+    public int deptInsert(DeptVO dvo) {
+        log.info("deptInsert");
+        int result = 0;
+        result = deptDao.deptInsert(dvo);
+        return result;
+    }
 }
