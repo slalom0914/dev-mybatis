@@ -24,10 +24,10 @@ public class NoticeDao {
 
     //select n_no, n_title, n_content from notice
     //where n_no=:x;
-    public List<NoticeVO> noticeSelect(NoticeVO nvo){
-        log.info("noticeSelect");
+    public List<NoticeVO> noticeList(NoticeVO nvo){
+        log.info("noticeList");
         List<NoticeVO> list = null;
-        list = sqlSession.selectList("noticeSelect", nvo);
+        list = sqlSession.selectList("noticeList", nvo);
         return list;
     }
 

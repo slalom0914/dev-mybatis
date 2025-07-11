@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.PrintWriter;
+import java.util.List;
 import java.util.Map;
 
 //나는 이제부터 req와 res없어도 모든 요청에 대해서 처리할 수 있어
@@ -20,6 +21,16 @@ import java.util.Map;
 public class RestNoticeController{
     @Autowired
     private NoticeService noticeService;
+    @GetMapping("noticeList")
+    public String noticeList(NoticeVO nvo)
+    {
+        log.info("noticeList");
+        List<NoticeVO> list = null;
+        list = noticeService.noticeList(nvo);
+        Gson gson = new Gson();
+        String temp =  gson.toJson(list);
+        return temp;
+    }//end of noticeList
     @GetMapping("noticeList3")
     public String noticeList3(NoticeVO nvo) throws Exception
     {
@@ -40,11 +51,11 @@ public class RestNoticeController{
         System.out.println(pmap.get("n_content"));
         return "[{n_no:2, n_title:'제목21', n_content:'내용21'}]";
     }//end of noticeList2
-    @GetMapping("noticeList")
-    public void noticeList(HttpServletRequest request, HttpServletResponse response)
+    @GetMapping("noticeList5")
+    public void noticeList5(HttpServletRequest request, HttpServletResponse response)
     throws Exception
     {
-        log.info("noticeList");
+        log.info("noticeList5");
         //쿼리스트링 값 가져오기
         log.info(request.getParameter("n_title"));
         System.out.println(request.getParameter("n_content"));
@@ -53,8 +64,40 @@ public class RestNoticeController{
         out.println("[{n_no:1, n_title:'제목1', n_content:'내용1'}]");
         //return  "noticeList";
     }//end of noticeList
-    //@GetMapping("noticeDetail")
-    //@PostMapping("noticeInsert")
-    //@PutMapping("noticeUpdate")
-    //@DeleteMapping("noticeDelete")
+    @GetMapping("noticeDetail")
+    public String noticeDetail(NoticeVO nvo)
+    {
+        log.info("noticeDetail");
+        List<NoticeVO> list = null;
+        list = noticeService.noticeList(nvo);
+        Gson gson = new Gson();
+        String temp =  gson.toJson(list);
+        return temp;
+    }//end of noticeDetail
+    @PostMapping("noticeInsert")
+    public String noticeInsert(NoticeVO nvo)
+    {
+        log.info("noticeInsert");
+        int result = 0;
+        result = noticeService.noticeInsert(nvo);
+        return String.valueOf(result);
+    }
+    @PutMapping("noticeUpdate")
+    public String noticeUpdate(NoticeVO nvo)
+    {
+        log.info("noticeUpdate");
+        int result = 0;
+        result = noticeService.noticeUpdate(nvo);
+        return String.valueOf(result);
+    }
+    // http://localhost:8000/notice/noticeDelete?n_no=3
+    // http://localhost:8000/notice/noticeDelete/3
+    @DeleteMapping("noticeDelete")
+    public String noticeDelete(int n_no)
+    {
+        log.info("noticeDelete n_no : " + n_no);
+        int result = 0;
+        result = noticeService.noticeDelete(n_no);
+        return String.valueOf(result);
+    }
 }
