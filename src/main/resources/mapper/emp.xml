@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.empMapper">
+    <delete id="empDelete" parameterType="int">
+        DELETE FROM emp WHERE empno=#{value}
+    </delete>
+    <update id="empUpdate" parameterType="map">
+        UPDATE emp
+        <set>
+            <if test='ename !=null'>
+                ename = #{ename},
+            </if>
+            <if test='mgr !=null'>
+                mgr = #{mgr},
+            </if>
+            <if test='hiredate !=null'>
+                hiredate = #{hiredate},
+            </if>
+            <if test='sal !=null'>
+                sal = #{sal},
+            </if>
+            <if test='comm !=null'>
+                comm = #{comm},
+            </if>
+            <if test='job !=null'>
+                job = #{job}
+            </if>
+        </set>
+        WHERE empno = #{empno}
+    </update>
+    <insert id="empInsert" parameterType="map">
+        INSERT INTO emp(empno, ename, job, mgr, hiredate
+                       ,sal,comm,deptno)
+        VALUES(#{empno},#{ename},#{job},#{mgr},#{hiredate},#{sal},#{comm},#{deptno})
+    </insert>
+    <select id="empList" resultType="map" parameterType="map">
+        SELECT empno,ename,job,mgr,hiredate,sal,comm,deptno FROM emp
+        WHERE 1=1
+        <if test="empno>0">
+            <![CDATA[ AND empno = #{empno} ]]>
+        </if>
+    </select>
+</mapper>
