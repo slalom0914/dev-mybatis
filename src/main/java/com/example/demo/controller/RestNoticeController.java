@@ -75,7 +75,7 @@ public class RestNoticeController{
         return temp;
     }//end of noticeDetail
     @PostMapping("noticeInsert")
-    public String noticeInsert(NoticeVO nvo)
+    public String noticeInsert(@RequestBody NoticeVO nvo)
     {
         log.info("noticeInsert");
         int result = 0;
@@ -83,7 +83,7 @@ public class RestNoticeController{
         return String.valueOf(result);
     }
     @PutMapping("noticeUpdate")
-    public String noticeUpdate(NoticeVO nvo)
+    public String noticeUpdate(@RequestBody NoticeVO nvo)
     {
         log.info("noticeUpdate");
         int result = 0;
