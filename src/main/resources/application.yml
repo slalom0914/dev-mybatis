@@ -1,3 +1,5 @@
+uploadPath:
+  D:\dev_lab\07.myBatis\dev-mybatis\src\main\webapp\pds\
 server:
   port: 8000
   tomcat:    
@@ -6,6 +8,10 @@ logging:
   pattern:
     console: "${LOGPATTERN_CONSOLE:%green(%d{HH:mm:ss.SSS}) %blue(%-5level) %red([%thread]) %yellow(%logger{15}:%line)-%msg%n}"
 spring:
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      enabled: true
   output:
     ansi:
       enabled: always
