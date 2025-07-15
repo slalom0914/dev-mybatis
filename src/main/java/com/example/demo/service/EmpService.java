@@ -51,6 +51,7 @@ public class EmpService {
 
     public String imageUpload(MultipartFile image) {
         Map<String,Object> map = new HashMap<>();
+        //이미지파일을 톰캣 서버가 바라보는 프로젝트 폴더 pds에 업로드 한다.
         String savePath = "D:\\dev_lab\\07.myBatis\\dev-mybatis\\src\\main\\webapp\\pds";
         String filename = null;
         String fullPath = null;
@@ -62,10 +63,14 @@ public class EmpService {
             filename = sdf.format(time.getTime())+"-"+image.getOriginalFilename().replaceAll(" ","-");
             fullPath = savePath+"\\"+filename;
             try {
+                //File객체는 파일명을 객체로 만들어주는 클래스 이다.
                 File f = new File(fullPath);
+                //위에서 File객체는 파일명만 생성할 뿐 내용까지 포함되는 건 아니다.
                 byte[] bytes = image.getBytes();
+                //OutputStream을 생성하여 파일객체에 읽어들인 내용들을 쓴다.
                 BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
                 out.write(bytes);
+                //입출력 관련 클래스는 사용 후 반드시 닫아준다.
                 out.close();
                 //파일 처리하는 경우 - 추가 파일 정보가 필요할 때
                 //파일 크기

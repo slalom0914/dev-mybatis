@@ -41,5 +41,18 @@
         <if test="empno>0">
             <![CDATA[ AND emp.empno = #{empno} ]]>
         </if>
+        <if test="gubun!=null">
+            <choose>
+                <when test="gubun.equals('empno')">
+                    AND empno = #{keyword}
+                </when>
+                <when test="gubun.equals('ename')">
+                    AND ename LIKE '%'||#{keyword}||'%'
+                </when>
+                <when test="gubun.equals('job')">
+                    AND job LIKE '%'||#{keyword}||'%'
+                </when>
+            </choose>
+        </if>
     </select>
 </mapper>

@@ -39,6 +39,7 @@ public class RestEmpController {
         return "filename";
     }
     //이미지 읽어오기
+    // http://localhost:8000/emp/imageGet?imageName=man.png
     @GetMapping("imageGet")
     public String imageGet(HttpServletRequest req, HttpServletResponse res) {
         log.info("imageGet");
