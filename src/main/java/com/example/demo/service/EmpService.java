@@ -4,10 +4,14 @@ import com.example.demo.dao.EmpDao;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Log4j2
 @Service
@@ -44,4 +48,35 @@ public class EmpService {
         result = empDao.empDelete(pmap);
         return  result;
     }
+
+    public String imageUpload(MultipartFile image) {
+        Map<String,Object> map = new HashMap<>();
+        String savePath = "D:\\dev_lab\\07.myBatis\\dev-mybatis\\src\\main\\webapp\\pds";
+        String filename = null;
+        String fullPath = null;
+        //이미지 파일이 존재하면....
+        //만일 같은 이름의 파일이 존재하면 안되니까.... 예방코드 작성
+        if(image!=null && !image.isEmpty()){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+            Calendar time = Calendar.getInstance();
+            filename = sdf.format(time.getTime())+"-"+image.getOriginalFilename().replaceAll(" ","-");
+            fullPath = savePath+"\\"+filename;
+            try {
+                File f = new File(fullPath);
+                byte[] bytes = image.getBytes();
+                BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(f));
+                out.write(bytes);
+                out.close();
+                //파일 처리하는 경우 - 추가 파일 정보가 필요할 때
+                //파일 크기
+                double size = Math.floor(filename.length()/(1024.0*1024.0)*10/10);
+                log.info(size);
+                map.put("filename",filename);
+                map.put("filesize",size);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }//end of if
+        return filename;
+    }//imageUpload
 }

@@ -37,7 +37,7 @@
         SELECT emp.empno, emp.ename, emp.job, emp.hiredate, emp.sal
         ,emp.comm, dept.dname, dept.deptno
         FROM dept, emp
-        WHERE emp.deptno = dept.deptno;
+        WHERE emp.deptno = dept.deptno
         <if test="empno>0">
             <![CDATA[ AND emp.empno = #{empno} ]]>
         </if>

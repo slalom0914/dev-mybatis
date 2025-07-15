@@ -2,8 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.service.EmpService;
 import com.google.gson.Gson;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -11,6 +15,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.net.URLDecoder;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 
@@ -25,26 +35,77 @@ public class RestEmpController {
     public String imageUpload(@RequestParam(value="image") MultipartFile image) {
         log.info("imageUpload");
         log.info("image : " + image);
+        String filename = empService.imageUpload(image);
         return "filename";
     }
     //이미지 읽어오기
     @GetMapping("imageGet")
-    public String imageGet() {
+    public String imageGet(HttpServletRequest req, HttpServletResponse res) {
         log.info("imageGet");
+        String b_file = req.getParameter("imageName");
+        log.info("b_file : " + b_file);
+        String filePath = "D:\\dev_lab\\07.myBatis\\dev-mybatis\\src\\main\\webapp\\pds";
+        String fname = b_file;
+        File file = new File(filePath, b_file.trim());
+        String mimeType = req.getServletContext().getMimeType(file.toString());
+        if (mimeType == null) {
+            res.setContentType("application/octet-stream");
+        }
+        String downName = null;
+        FileInputStream fis = null;
+        ServletOutputStream sos = null;
+        try{
+            if(req.getHeader("User-Agent").indexOf("MSIE") == -1){
+                downName = new String(b_file.getBytes("UTF-8"),"8859_1");
+            }else{
+                downName = new String(b_file.getBytes("EUC-KR"),"8859_1");
+            }
+            res.setHeader("Content-Disposition", "attachment; filename=" + downName);
+            fis = new FileInputStream(file);
+            sos = res.getOutputStream();
+            byte[] b = new byte[1024*10];
+            int data = 0;
+            while((data = (fis.read(b, 0, b.length))) != -1){
+                sos.write(b,0,data);
+            }
+            sos.flush();
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            try {
+                if(sos != null) sos.close();
+                if(fis != null) fis.close();
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         return null;
     }
     //이미지 다운로드
     @GetMapping("imageDownload")
     public ResponseEntity<Resource> imageDownload(@RequestParam(value="imageName") String imageName) {
         log.info("imageDownload");
-        /*
-        return ResponseEntity.ok()
-                .header(header)
-                .contentLength(file.length())
-                .contentType(MediaType.parseMediaType("application/octet-stream"))
-                .body(resource);
-         */
-        return null;
+        String filePath = "D:\\dev_lab\\07.myBatis\\dev-mybatis\\src\\main\\webapp\\pds";
+        try {
+            File file = new File(filePath, URLDecoder.decode(imageName, "UTF-8"));
+            HttpHeaders header = new HttpHeaders();
+            header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + imageName);
+            header.add("Cache-Control", "no-cache, no-store, must-revalidate");
+            header.add("Pragma", "no-cache");
+            header.add("Expires", "0");
+
+            Path path = Paths.get(file.getAbsolutePath());
+            ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(path));
+            return ResponseEntity.ok()
+                    .headers(header)
+                    .contentLength(file.length())
+                    .contentType(MediaType.parseMediaType("application/octet-stream"))
+                    .body(resource);
+
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }//end of imageDownload
 
 
