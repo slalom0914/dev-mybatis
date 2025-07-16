@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +29,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/emp/*")
 public class RestEmpController {
+    @Value("${uploadPath}")
+    private String uploadPath;
     @Autowired
     private EmpService empService;
     //이미지 업로드 하기
@@ -84,12 +87,14 @@ public class RestEmpController {
         return null;
     }
     //이미지 다운로드
+    //imageName키값은 스프링에서 request.getParameter가 아니어도 사용자가 입력한 값을 읽어올 수 있다.
+    //emp.ephoto값은 오라클 서버에서 select한 결과값이다.
+    //http://localhost:8000/emp/imageDownload?imageName=emp.ephoto
     @GetMapping("imageDownload")
     public ResponseEntity<Resource> imageDownload(@RequestParam(value="imageName") String imageName) {
         log.info("imageDownload");
-        String filePath = "D:\\dev_lab\\07.myBatis\\dev-mybatis\\src\\main\\webapp\\pds";
         try {
-            File file = new File(filePath, URLDecoder.decode(imageName, "UTF-8"));
+            File file = new File(uploadPath, URLDecoder.decode(imageName, "UTF-8"));
             HttpHeaders header = new HttpHeaders();
             header.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + imageName);
             header.add("Cache-Control", "no-cache, no-store, must-revalidate");

@@ -56,4 +56,27 @@
             </choose>
         </if>
     </select>
+    <select id="empList2" resultType="java.util.Map" parameterType="map">
+        SELECT emp.empno as "empno", emp.ename as "ename", emp.job as "job"
+        , emp.hiredate as "hiredate", emp.sal as "sal", emp.comm as "comm"
+        , dept.dname as "dname", dept.deptno as "deptno", emp.ephoto as "ephoto"
+        FROM dept, emp
+        WHERE emp.deptno = dept.deptno
+        <if test="empno>0">
+            <![CDATA[ AND emp.empno = #{empno} ]]>
+        </if>
+        <if test="gubun!=null">
+            <choose>
+                <when test="gubun.equals('empno')">
+                    AND empno = #{keyword}
+                </when>
+                <when test="gubun.equals('ename')">
+                    AND ename LIKE '%'||#{keyword}||'%'
+                </when>
+                <when test="gubun.equals('job')">
+                    AND job LIKE '%'||#{keyword}||'%'
+                </when>
+            </choose>
+        </if>
+    </select>
 </mapper>
