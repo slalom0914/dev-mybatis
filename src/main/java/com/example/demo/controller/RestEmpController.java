@@ -35,10 +35,11 @@ public class RestEmpController {
     public String imageUpload(@RequestParam(value="image") MultipartFile image) {
         log.info("imageUpload");
         log.info("image : " + image);
+        //리액트에서 요청된 이미지 파일을 톰캣 서버에 pds폴더에 업로드 처리함
         String filename = empService.imageUpload(image);
-        return "filename";
+        return filename;
     }
-    //이미지 읽어오기
+    //이미지 읽어오기 - Quill Editor 이미지 미리보기용
     // http://localhost:8000/emp/imageGet?imageName=man.png
     @GetMapping("imageGet")
     public String imageGet(HttpServletRequest req, HttpServletResponse res) {

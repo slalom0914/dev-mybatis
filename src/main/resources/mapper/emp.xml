@@ -30,12 +30,13 @@
     </update>
     <insert id="empInsert" parameterType="map">
         INSERT INTO emp(empno, ename, job, mgr, hiredate
-                       ,sal,comm,deptno)
-        VALUES(#{empno},#{ename},#{job},#{mgr},#{hiredate},#{sal},#{comm},#{deptno})
+                       ,sal,comm,deptno,ephoto)
+        VALUES(#{empno},#{ename},#{job},#{mgr},#{hiredate}
+            ,#{sal},#{comm},#{deptno},#{ephoto})
     </insert>
     <select id="empList" resultType="map" parameterType="map">
         SELECT emp.empno, emp.ename, emp.job, emp.hiredate, emp.sal
-        ,emp.comm, dept.dname, dept.deptno
+        ,emp.comm, dept.dname, dept.deptno, emp.ephoto
         FROM dept, emp
         WHERE emp.deptno = dept.deptno
         <if test="empno>0">

@@ -3,6 +3,7 @@ package com.example.demo.service;
 import com.example.demo.dao.EmpDao;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,6 +17,9 @@ import java.util.*;
 @Log4j2
 @Service
 public class EmpService {
+    //resources>application.yml
+    @Value("${uploadPath}")
+    private String uploadPath;
     @Autowired
     private EmpDao empDao;
 
@@ -52,7 +56,6 @@ public class EmpService {
     public String imageUpload(MultipartFile image) {
         Map<String,Object> map = new HashMap<>();
         //이미지파일을 톰캣 서버가 바라보는 프로젝트 폴더 pds에 업로드 한다.
-        String savePath = "D:\\dev_lab\\07.myBatis\\dev-mybatis\\src\\main\\webapp\\pds";
         String filename = null;
         String fullPath = null;
         //이미지 파일이 존재하면....
@@ -61,7 +64,7 @@ public class EmpService {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
             Calendar time = Calendar.getInstance();
             filename = sdf.format(time.getTime())+"-"+image.getOriginalFilename().replaceAll(" ","-");
-            fullPath = savePath+"\\"+filename;
+            fullPath = uploadPath+filename;
             try {
                 //File객체는 파일명을 객체로 만들어주는 클래스 이다.
                 File f = new File(fullPath);
