@@ -126,8 +126,12 @@ public class RestEmpController {
     @GetMapping("empDetail")
     public String empDetail(@RequestParam Map<String,Object> pmap){
         log.info("empDetail");
-        log.info(pmap);
-        return "empDetail";
+        log.info(pmap);//empno=7566
+        Map<String,Object> rmap = null;
+        rmap = empService.empDetail(pmap);
+        Gson gson = new Gson();
+        String temp = gson.toJson(rmap);
+        return temp;
     }
     //Post나 Put은 브라우저로 부터 인터셉트를 당하지 않음
     //입력 - 리턴과 파라미터

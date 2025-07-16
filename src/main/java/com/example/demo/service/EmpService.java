@@ -23,6 +23,11 @@ public class EmpService {
     @Autowired
     private EmpDao empDao;
 
+    public Map<String, Object> empDetail(Map<String, Object> pmap) {
+        Map<String, Object> rmap = null;
+        rmap = empDao.empDetail(pmap);
+        return rmap;
+    }
     public List<Map<String, Object>> empList(Map<String, Object> pmap) {
         List<Map<String, Object>> list = null;
         list = empDao.empList(pmap);

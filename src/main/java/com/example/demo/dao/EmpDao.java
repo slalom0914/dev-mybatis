@@ -15,6 +15,11 @@ public class EmpDao {
     @Autowired
     private SqlSessionTemplate sqlSessionTemplate;
 
+    public Map<String, Object> empDetail(Map<String, Object> pmap) {
+        Map<String, Object> rmap = null;
+        rmap = sqlSessionTemplate.selectOne("empList", pmap);
+        return rmap;
+    }
     public List<Map<String, Object>> empList(Map<String, Object> pmap) {
         List<Map<String, Object>> list = null;
         list = sqlSessionTemplate.selectList("empList", pmap);
