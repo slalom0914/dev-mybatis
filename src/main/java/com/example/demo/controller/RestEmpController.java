@@ -33,6 +33,16 @@ public class RestEmpController {
     private String uploadPath;
     @Autowired
     private EmpService empService;
+    //페이징 처리 실습 메서드 선언 - 오라클 : paging
+    @GetMapping("pagingList")
+    public String pagingList(){
+        List<Map<String, Object>> list = null;
+        list = empService.pagingList();
+        Gson gson = new Gson();
+        String temp = gson.toJson(list);
+        return temp;
+    }
+
     //이미지 업로드 하기
     @PostMapping("imageUpload")
     public String imageUpload(@RequestParam(value="image") MultipartFile image) {

@@ -50,7 +50,7 @@ public class EmpService {
         result = empDao.empUpdate(pmap);
         return  result;
     }
-
+    //업무에 경우 선택과 결정한다 - 업무 진행 방향이 바뀐다.
     public int empDelete(Map<String, Object> pmap) {
         log.info("empDelete");
         int result = 0;
@@ -92,4 +92,9 @@ public class EmpService {
         }//end of if
         return filename;
     }//imageUpload
+
+    public List<Map<String, Object>> pagingList() {
+        List<Map<String, Object>> list = null;
+        return list;
+    }
 }

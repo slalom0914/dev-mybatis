@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.empMapper">
+    <select id="pagingList" parameterType="map" resultType="map">
+        SELECT seq, title, rn
+        FROM (
+               SELECT seq, title,
+                      row_number() over (order by seq) as rn
+                 FROM paging
+             )
+        WHERE rn BETWEEN #{startRow} AND #{endRow}
+    </select>
+    <select id="pagingCount" parameterType="map" resultType="int">
+        SELECT COUNT(*) FROM paging
+        <where>
+            <if test="gubun !=null and keyword !=null">
+                ${gubun} LIKE '%'||#{keyword}||'%'
+            </if>
+        </where>
+    </select>
     <delete id="empDelete" parameterType="int">
         DELETE FROM emp WHERE empno=#{value}
     </delete>
@@ -36,7 +53,7 @@
     </insert>
     <select id="empList" resultType="map" parameterType="map">
         SELECT emp.empno, emp.ename, emp.job, emp.hiredate, emp.sal
-        ,emp.comm, dept.dname, dept.deptno, emp.ephoto
+        ,emp.comm, dept.dname, dept.deptno, emp.ephoto, emp.mgr
         FROM dept, emp
         WHERE emp.deptno = dept.deptno
         <if test="empno>0">
@@ -55,6 +72,7 @@
                 </when>
             </choose>
         </if>
+        ORDER BY empno asc
     </select>
     <select id="empList2" resultType="java.util.Map" parameterType="map">
         SELECT emp.empno as "empno", emp.ename as "ename", emp.job as "job"

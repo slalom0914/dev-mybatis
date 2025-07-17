@@ -41,6 +41,8 @@ public class EmpDao {
     public int empDelete(Map<String, Object> pmap) {
         int result = 0;
         int empno = 0;
+        //변수 - 배열(new예약어사용) - 객체배열 - 객체 - 자료구조(컬렉션프레임워크-읽기와쓰기)
+        //Object
         if(pmap.containsKey("empno")){
             empno = Integer.parseInt(pmap.get("empno").toString());
         }
