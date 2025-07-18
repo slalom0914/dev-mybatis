@@ -7,6 +7,11 @@
                SELECT seq, title,
                       row_number() over (order by seq) as rn
                  FROM paging
+                <where>
+                    <if test="gubun !=null and keyword !=null">
+                        ${gubun} LIKE '%'||#{keyword}||'%'
+                    </if>
+                </where>
              )
         WHERE rn BETWEEN #{startRow} AND #{endRow}
     </select>

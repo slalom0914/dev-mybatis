@@ -93,8 +93,32 @@ public class EmpService {
         return filename;
     }//imageUpload
 
-    public List<Map<String, Object>> pagingList() {
-        List<Map<String, Object>> list = null;
-        return list;
+    public Map<String, Object> pagingList(Map<String, Object> pmap) {
+        int page = 0;
+        int size = 10;
+        if(pmap.containsKey("page")){
+            page = Integer.parseInt(pmap.get("page").toString());
+        }
+        if(pmap.containsKey("size")){
+            size = Integer.parseInt(pmap.get("size").toString());
+        }
+        int startRow = (page - 1) * size + 1;
+        int endRow = page * size;
+        log.info("startRow:"+startRow +",endRow:"+endRow);
+        pmap.put("startRow", startRow);
+        pmap.put("endRow", endRow);
+        //조회 결과를 담을 List선언하기
+        List<Map<String,Object>> list = null;
+        list = empDao.pagingList(pmap);
+        //총 페이지의 수 구하기
+        //총 페이지 수를 계산하려면 총 레코드 수 구해야 한다.
+        int total = empDao.pagingCount(pmap);
+        int totalPages = (int)Math.ceil(total/(double)size);
+        Map<String,Object> rmap = new HashMap<>();
+        rmap.put("totalPages",totalPages);
+        rmap.put("total",total);
+        rmap.put("list",list);
+        rmap.put("page",page);
+        return rmap;
     }
 }

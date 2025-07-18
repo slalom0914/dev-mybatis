@@ -22,6 +22,7 @@ import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,12 +36,17 @@ public class RestEmpController {
     private EmpService empService;
     //페이징 처리 실습 메서드 선언 - 오라클 : paging
     @GetMapping("pagingList")
-    public String pagingList(){
-        List<Map<String, Object>> list = null;
-        list = empService.pagingList();
-        Gson gson = new Gson();
-        String temp = gson.toJson(list);
-        return temp;
+    public Map<String,Object> pagingList(@RequestParam Map<String,Object> pmap){
+        log.info("pagingList");
+        log.info(pmap);//page, size, searchType, keyword
+        Map<String, Object> rmap = new HashMap<>();
+        rmap = empService.pagingList(pmap);
+        return rmap;
+    }
+    @GetMapping("pagingList2")
+    public Map<String,Object> pagingList2(@RequestParam Map<String,Object> pmap){
+        Map<String,Object> rmap = null;
+        return rmap;
     }
 
     //이미지 업로드 하기

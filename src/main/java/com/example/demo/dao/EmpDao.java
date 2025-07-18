@@ -49,4 +49,18 @@ public class EmpDao {
         result = sqlSessionTemplate.delete("empDelete", empno);
         return result;
     }
+
+    public List<Map<String, Object>> pagingList(Map<String, Object> pmap) {
+        log.info("pagingList");
+        List<Map<String, Object>> list = null;
+        list = sqlSessionTemplate.selectList("pagingList", pmap);
+        return list;
+    }
+
+    public int pagingCount(Map<String, Object> pmap) {
+        log.info("pagingCount");
+        int total = 0;
+        total = sqlSessionTemplate.selectOne("pagingCount", pmap);
+        return total;
+    }
 }
