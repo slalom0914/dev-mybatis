@@ -41,6 +41,7 @@ public class RestEmpController {
         log.info(pmap);//page, size, searchType, keyword
         Map<String, Object> rmap = new HashMap<>();
         rmap = empService.pagingList(pmap);
+        log.info(rmap);
         return rmap;
     }
     @GetMapping("pagingList2")
