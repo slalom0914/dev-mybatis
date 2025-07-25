@@ -25,17 +25,17 @@ public class TestService {
   @Autowired
   private TestDao testDao = null;
 
-  public List<TestVO> testList() {
+  public List<Map<String,Object>> testList(Map<String,Object> pmap) {
     log.info("testList");
-    List<TestVO> list = null;
-    list = testDao.testList();//null이 올 수도 있습니다
+    List<Map<String,Object>> list = null;
+    list = testDao.testList(pmap);//null이 올 수도 있습니다
     return list;
   }
 
-  public int testInsert(TestVO tvo) {
+  public int testInsert(Map<String,Object> pmap) {
     log.info("testInsert");
     int result = 0;
-    result = testDao.testInsert(tvo);
+    result = testDao.testInsert(pmap);
     return result;
   }
 

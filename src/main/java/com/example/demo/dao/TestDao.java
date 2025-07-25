@@ -1,6 +1,7 @@
 package com.example.demo.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,15 @@ import lombok.extern.log4j.Log4j2;
 public class TestDao {
   @Autowired
   private SqlSessionTemplate sqlSessionTemplate = null;
-  public List<TestVO> testList() {
+  public List<Map<String,Object>> testList(Map<String,Object> pmap) {
     log.info("testList");
-    List<TestVO> list = null;
-    list = sqlSessionTemplate.selectList("testList", null);
+    List<Map<String,Object>> list = null;
+    list = sqlSessionTemplate.selectList("testList", pmap);
     return list;
   }
-  public int testInsert(TestVO tvo) {
+  public int testInsert(Map<String,Object> pmap) {
     int result = 0;
-    result = sqlSessionTemplate.insert("testInsert",tvo);
+    result = sqlSessionTemplate.insert("testInsert",pmap);
     return result;
   }
   public int testUpdate(TestVO tvo) {

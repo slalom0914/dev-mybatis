@@ -2,12 +2,18 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo">
 	<select id="testList" resultType="java.util.Map" parameterType="map">
-		SELECT t_no, t_title, t_content FROM test
+		SELECT t_no as "t_no", t_title as "t_title", t_content as "t_content"
+		FROM test
+        WHERE 1=1
+        <if test="t_no>0">
+            <![CDATA[ AND t_no = #{t_no} ]]>
+        </if>
 	</select>
-  <insert id="testInsert" parameterType="com.example.demo.vo.TestVO">
-    INSERT INTO test(t_no, t_title, t_content) VALUES(#{t_no}, #{t_title}, #{t_content})
+  <insert id="testInsert" parameterType="map">
+    INSERT INTO test(t_no, t_title, t_content)
+    VALUES(seq_test_no.nextval, #{t_title}, #{t_content})
   </insert>
-  <update id="testUpdate" parameterType="com.example.demo.vo.TestVO">
+  <update id="testUpdate" parameterType="map">
     UPDATE test 
        SET t_title = #{t_title}
           ,t_content = #{t_content} 
