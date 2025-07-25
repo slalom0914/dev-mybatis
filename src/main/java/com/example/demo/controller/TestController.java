@@ -134,7 +134,8 @@ public class TestController {
     log.info("pmap : " + pmap);//t_no가 있어야 한다.
     List<Map<String,Object>> list = null;
     //Map<String,Object> rmap = null;
-    list = testService.testList(pmap);
+    list = testService.testDetail(pmap);
+    log.info("list : " + list);
     Gson g = new Gson();
     String temp = g.toJson(list);
     return temp;

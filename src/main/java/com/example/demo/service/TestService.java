@@ -31,6 +31,20 @@ public class TestService {
     list = testDao.testList(pmap);//null이 올 수도 있습니다
     return list;
   }
+  public List<Map<String,Object>> testDetail(Map<String,Object> pmap) {
+    log.info("testDetail");
+    List<Map<String,Object>> list = null;
+    list = testDao.testList(pmap);//null이 올 수도 있습니다
+    List<Map<String,Object>> clist = testDao.testCommentList(pmap);
+    log.info(clist);
+    //댓글이 존재하면
+    if(clist !=null && clist.size()>0){
+      Map<String,Object> cmap = new HashMap<>();
+      cmap.put("comment", clist);
+      list.add(1, cmap);
+    }
+    return list;
+  }
 
   public int testInsert(Map<String,Object> pmap) {
     log.info("testInsert");

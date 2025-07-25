@@ -3,8 +3,9 @@
 <mapper namespace="com.example.demo">
 	<select id="testList" resultType="java.util.Map" parameterType="map">
 		SELECT t_no as "t_no", t_title as "t_title", t_content as "t_content"
-		FROM test
-        WHERE 1=1
+		      ,member0630.name as "name"
+		FROM test, member0630
+        WHERE test.id = member0630.id
         <if test="t_no>0">
             <![CDATA[ AND t_no = #{t_no} ]]>
         </if>
@@ -23,4 +24,14 @@
   <delete id="testDelete" parameterType="int">
     DELETE FROM test WHERE t_no = #{value}
   </delete>
+
+<!--=================== 댓글관련 쿼리문 ====================-->
+  <select id="testCommentList" parameterType="map" resultType="map">
+      SELECT
+          tc.tc_no, tc.tc_comment, tc.tc_date, mem.name
+      FROM test_comment tc, member0630 mem
+      WHERE tc.id = mem.id
+        AND t_no = #{t_no}
+      ORDER BY tc_no desc
+  </select>
 </mapper>

@@ -15,6 +15,12 @@ import lombok.extern.log4j.Log4j2;
 public class TestDao {
   @Autowired
   private SqlSessionTemplate sqlSessionTemplate = null;
+  public List<Map<String,Object>> testCommentList(Map<String,Object> pmap) {
+    log.info("testCommentList");
+    List<Map<String,Object>> list = null;
+    list = sqlSessionTemplate.selectList("testCommentList", pmap);
+    return list;
+  }
   public List<Map<String,Object>> testList(Map<String,Object> pmap) {
     log.info("testList");
     List<Map<String,Object>> list = null;
